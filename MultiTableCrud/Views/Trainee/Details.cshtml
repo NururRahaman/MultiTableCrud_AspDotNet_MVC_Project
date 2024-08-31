@@ -1,0 +1,104 @@
+﻿@model MultiTableCrud.Models.Trainee
+
+@{
+    ViewBag.Title = "Details";
+}
+<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#examInfo").click(function () {
+            $.ajax({
+                url: "@Url.Action("ExamDetails", "Trainee", new {id = @Model.TraineeID})",
+                type: "get",
+                dataType: "json",
+                success: function (result) {
+                    $("#examDisplay table tbody").empty;
+                    for (var i = 0; i < result.length; i++) {
+                        $("#examDisplay table tbody").append("<tr><td>" + result[i].examName + "</td><td>" + result[i].examDate + "</td><td>" + result[i].resultdate + "</td><td>" + result[i].totalMarks + "</td></tr>");
+                    }
+                    $("#examDisplay").show();
+                }
+            });
+            this.disabled = true;
+        });
+    });
+</script>
+
+<h2>Details</h2>
+<div class="container">
+    <div class="row">
+        <div class="col-md-10">
+            <fieldset>
+                <legend>Trainee</legend>
+                <span class="display-label">
+                    @Html.DisplayNameFor(model => model.Name) :
+                </span>
+                <span class="display-field">
+                    @Html.DisplayFor(model => model.Name)
+                </span>
+                <br />
+                <span class="display-label">
+                    @Html.DisplayNameFor(model => model.CoreSubject) :
+                </span>
+                <span class="display-field">
+                    @Html.DisplayFor(model => model.CoreSubject)
+                </span>
+                <br />
+                <span class="display-label">
+                    @Html.DisplayNameFor(model => model.Round) :
+                </span>
+                <span class="display-field">
+                    @Html.DisplayFor(model => model.Round)
+                </span>
+                <br />
+                <span class="display-label">
+                    @Html.DisplayNameFor(model => model.TSP) :
+                </span>
+                <span class="display-field">
+                    @Html.DisplayFor(model => model.TSP)
+                </span>
+                <br />
+                <span class="display-label">
+                    @Html.DisplayNameFor(model => model.Email) :
+                </span>
+                <span class="display-field">
+                    @Html.DisplayFor(model => model.Email)
+                </span>
+                <br />
+                <span class="display-label">
+                    @Html.DisplayNameFor(model => model.DateOfBirth) :
+                </span>
+                <span class="display-field">
+                    @Html.DisplayFor(model => model.DateOfBirth)
+                </span>
+            </fieldset>
+            <p>
+                @Html.ActionLink("Edit", "Edit", new { id = Model.TraineeID }) |
+                @Html.ActionLink("Back to List", "Index")
+            </p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div>
+                <button class="btn btn-info" id="examInfo" data-exam-id="@Model.TraineeID">Exam Details</button>
+            </div>
+            <div id="examDisplay" style="display:none">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Exam Name</th>
+                            <th>Exam Date</th>
+                            <th>Result Date</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
